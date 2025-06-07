@@ -36,6 +36,7 @@
 // modul bazli include
 #ifdef REGISTER_CORE
 #include "Modules/Config/Config.hpp"
+#include "Modules/Config/WindowStyle.hpp"
 #include "Modules/Core/Core.hpp"
 #include "Modules/Core/Game.hpp"
 #endif

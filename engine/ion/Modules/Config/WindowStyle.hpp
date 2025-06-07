@@ -1,5 +1,7 @@
 #pragma once
 
+namespace Ion {
+
 typedef enum WindowStyle {
   FULLSCREEN = 0x00000001,    /**< fullscreen window */
   OPENGL = 0x00000002,        /**< window usable with OpenGL context */
@@ -13,3 +15,5 @@ typedef enum WindowStyle {
   INPUT_FOCUS = 0x00000200,   /**< window has input focus */
   MOUSE_FOCUS = 0x00000400,   /**< window has mouse focus */
 } WindowStyle;
+
+}

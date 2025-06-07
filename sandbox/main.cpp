@@ -1,5 +1,4 @@
 #define REGISTER_ALL
-#define INPUT_DEBUG
 #include <ion/Ion.hpp>
 
 class MyGame : public Ion::Game {
@@ -9,5 +8,7 @@ public:
   void update(float delta) override {}
 };
 
-ION_WINDOW_CONFIG_S("MyGame", 1280, 720);
+ION_WINDOW_CONFIG("MyGame", 1280, 720,
+                  Ion::WindowStyle::OPENGL | Ion::WindowStyle::RESIZABLE |
+                      Ion::WindowStyle::SHOWN);
 ION_MAIN(MyGame);
