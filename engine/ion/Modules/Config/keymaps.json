@@ -1,9 +1,29 @@
 {
-  "move_left": ["A", "Left"],
-  "move_right": ["D", "Right"],
-  "move_up": ["W", "Up"],
-  "move_Down": ["S", "Down"],
-  "accept": ["Enter", "Space"],
-  "cancel": ["Escape", "Backspace"],
-  "debug_toggle": ["F1"],
+  "move_left": [
+    "A",
+    "Left"
+  ],
+  "move_right": [
+    "D",
+    "Right"
+  ],
+  "move_up": [
+    "W",
+    "Up"
+  ],
+  "move_Down": [
+    "S",
+    "Down"
+  ],
+  "accept": [
+    "Enter",
+    "Space"
+  ],
+  "cancel": [
+    "Escape",
+    "Backspace"
+  ],
+  "debug_toggle": [
+    "F1"
+  ]
 }

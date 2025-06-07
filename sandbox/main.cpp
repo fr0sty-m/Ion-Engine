@@ -1,21 +1,13 @@
-#include "ion/Modules/Input/Input.hpp"
-#include "ion/Modules/Input/Key.hpp"
-#include "ion/Modules/Log/Log.hpp"
 #define REGISTER_ALL
+#define INPUT_DEBUG
 #include <ion/Ion.hpp>
-
-#include <iostream>
 
 class MyGame : public Ion::Game {
 public:
   void start() override {}
 
-  void update(float delta) override {
-    //
-    if (Ion::Input::pressed(Ion::Key::Space)) {
-      Ion::Log::info("Space");
-    }
-  }
+  void update(float delta) override {}
 };
 
+ION_WINDOW_CONFIG_S("MyGame", 1280, 720);
 ION_MAIN(MyGame);

@@ -1,5 +1,9 @@
 #include "Input.hpp"
 
+#include "IO/JSON.hpp"
+
+#include <iostream>
+
 #include <fstream>
 #include <nlohmann/json.hpp>
 
@@ -9,19 +13,13 @@ std::unordered_map<Key, bool> Input::s_Current;
 std::unordered_map<Key, bool> Input::s_Previous;
 std::unordered_map<std::string, std::vector<Key>> Input::s_Bindings;
 
-void Input::init() {
-  s_Bindings["move_left"] = {Key::A, Key::Left};
-  s_Bindings["move_right"] = {Key::D, Key::Right};
-  s_Bindings["move_up"] = {Key::W, Key::Up};
-  s_Bindings["move_down"] = {Key::S, Key::Down};
-  s_Bindings["accept"] = {Key::Enter, Key::Space};
-  s_Bindings["cancel"] = {Key::Escape, Key::Backspace};
-  s_Bindings["debug_toggle"] = {Key::F1};
-}
+void Input::init() { loadBinding("keymaps.json"); }
 
 void Input::onEvent(int key, bool isKeyDown) {
   Key mappedKey = static_cast<Key>(key);
   s_Current[mappedKey] = isKeyDown;
+
+  // std::cout << "Key: " << key << std::endl;
 }
 
 void Input::update() { s_Previous = s_Current; }
@@ -70,26 +68,26 @@ const std::unordered_map<std::string, std::vector<Key>> &Input::getBindings() {
 }
 
 void Input::loadBinding(const std::string &path) {
-  std::ifstream file(path);
-  if (!file.is_open())
+  nlohmann::json data = Ion::IO::JSON::read(path);
+  if (data.is_null())
     return;
-
-  nlohmann::json data;
-  file >> data;
 
   for (auto &[action, keys] : data.items()) {
     std::vector<Key> keyList;
     for (const auto &k : keys) {
       std::string keyStr = k.get<std::string>();
-      // Basitçe string -> Key çevir, örnek: "A" -> Key::A
+
+      // Harf tuşları için basit çeviri
       if (keyStr.length() == 1) {
-        keyList.push_back(static_cast<Key>(tolower(keyStr[0])));
+        keyList.push_back(static_cast<Key>(toupper(keyStr[0])));
       }
-      // Diğer özel tuşlar manuel eşlenebilir
+      // Özel tuşlar
       else if (keyStr == "Enter")
         keyList.push_back(Key::Enter);
       else if (keyStr == "Escape")
         keyList.push_back(Key::Escape);
+      else if (keyStr == "Space")
+        keyList.push_back(Key::Space);
       else if (keyStr == "Left")
         keyList.push_back(Key::Left);
       else if (keyStr == "Right")
@@ -98,6 +96,13 @@ void Input::loadBinding(const std::string &path) {
         keyList.push_back(Key::Up);
       else if (keyStr == "Down")
         keyList.push_back(Key::Down);
+      else if (keyStr == "Left")
+        keyList.push_back(Key::Left);
+      else if (keyStr == "Backspace")
+        keyList.push_back(Key::Backspace);
+      else if (keyStr == "F1")
+        keyList.push_back(Key::F1);
+      // Gerekirse burada diğer tuşlar da manuel eklenebilir
     }
     s_Bindings[action] = keyList;
   }

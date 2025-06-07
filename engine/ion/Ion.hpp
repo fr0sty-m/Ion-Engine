@@ -35,6 +35,7 @@
 
 // modul bazli include
 #ifdef REGISTER_CORE
+#include "Modules/Config/Config.hpp"
 #include "Modules/Core/Core.hpp"
 #include "Modules/Core/Game.hpp"
 #endif
@@ -45,6 +46,7 @@
 
 #ifdef REGISTER_INPUT
 #include "Modules/Input/Input.hpp"
+#include "Modules/Input/Key.hpp"
 #endif
 
 #ifdef REGISTER_IO
@@ -54,8 +56,30 @@
 
 #define ION_MAIN(GameClass)                                                    \
   int main() {                                                                 \
-    Ion::Core core;                                                            \
     GameClass game;                                                            \
-    core.run(&game);                                                           \
+    Ion::Core::instance().run(&game);                                          \
     return 0;                                                                  \
+  }
+
+#define ION_WINDOW_CONFIG(TITLE, WIDTH, HEIGHT, STYLE)                         \
+  namespace Ion {                                                              \
+  static struct ConfigInitializer {                                            \
+    ConfigInitializer() {                                                      \
+      g_Config.title = TITLE;                                                  \
+      g_Config.width = WIDTH;                                                  \
+      g_Config.height = HEIGHT;                                                \
+      g_Config.style = STYLE;                                                  \
+    }                                                                          \
+  } g_ConfigInitializerInstance;                                               \
+  }
+
+#define ION_WINDOW_CONFIG_S(TITLE, WIDTH, HEIGHT)                              \
+  namespace Ion {                                                              \
+  static struct ConfigInitializer {                                            \
+    ConfigInitializer() {                                                      \
+      g_Config.title = TITLE;                                                  \
+      g_Config.width = WIDTH;                                                  \
+      g_Config.height = HEIGHT;                                                \
+    }                                                                          \
+  } g_ConfigInitializerInstance;                                               \
   }
